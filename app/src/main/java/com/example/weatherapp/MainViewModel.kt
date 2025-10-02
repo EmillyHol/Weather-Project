@@ -1,4 +1,7 @@
 package com.example.weatherapp
 
-class MainViewModel {
+import androidx.lifecycle.ViewModel
+
+class MainViewModel : ViewModel(){
+    //will hold weather data
 }
