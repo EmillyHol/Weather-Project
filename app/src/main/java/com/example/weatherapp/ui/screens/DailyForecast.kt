@@ -27,6 +27,7 @@ val placeholderForecast = listOf(
     "Sun, Oct 5" to "Sunny"
 )
 
+
 @Composable
 fun DailyForecastScreen(forecasts: List<Pair<String, String>>) {
     Column(
