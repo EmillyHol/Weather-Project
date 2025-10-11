@@ -7,17 +7,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.material3.MaterialTheme
+
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.weatherapp.models.Current
 
 
 @Composable
 
-fun CurrentWeatherfun() {
+fun CurrentWeatherfun(current: Current) {
     Spacer(modifier = Modifier.height(16.dp))
     Column(
         modifier = Modifier.fillMaxSize()
@@ -42,10 +45,10 @@ fun CurrentWeatherfun() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = "Sunny")
-            Text(text = "22°C")
-            Text(text = "Feels like 18°C")
-            Text(text = "Wind Sw 14 kph")
+            Text(text = " ${current.condition}",fontSize = 17.sp)
+            Text(text = " ${current.temperature}°C",fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(text = " ${current.precipitationType} (${current.precipitationAmount} mm)",fontSize = 17.sp)
+            Text(text = " ${current.windDirection} at ${current.windSpeed} Km/h",fontSize = 17.sp)
         }
     }
 

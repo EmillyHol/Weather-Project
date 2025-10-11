@@ -1,13 +1,30 @@
 package com.example.weatherapp.models
 
+
+
 data class Weather (
-    val date: String? = null,
+    val current: Current,
+    val forecast: List<Forecast>
+)
+
+data class Current(
     val condition: String,
-    val temperature: String? = null,
-    val feelsLike: String? = null,
-    val tempHigh: String? = null,
-    val tempLow: String? = null,
-    val wind: String,
-    val precipitation: String? = null,
-    val humidity: String? = null
+    val temperature: Double,
+    val precipitationType: String,
+    val precipitationAmount: Double,
+    val windDirection: String,
+    val windSpeed: Double,
+)
+
+data class Forecast(
+    val date: String,
+    val condition: String,
+    val temperatureHigh: Double,
+    val temperatureLow: Double,
+    val precipitationType: String,
+    val precipitationAmount: Double,
+    val precipitationProbability: Int,
+    val windDirection: String,
+    val windSpeed: Double,
+    val humidity: Int
 )

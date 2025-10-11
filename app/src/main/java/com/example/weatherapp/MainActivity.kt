@@ -1,10 +1,9 @@
 package com.example.weatherapp
 
 import android.os.Bundle
-import android.view.Display
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -12,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -24,44 +22,45 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.ui.screens.CurrentWeatherfun
 import com.example.weatherapp.ui.screens.DailyForecastScreen
-import com.example.weatherapp.ui.theme.WeatherAppTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WeatherAppTheme {
-                DisplayUI()
-            }
+            val mainViewModel: MainViewModel = viewModel()
+            DisplayUI(mainViewModel = mainViewModel)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisplayUI() {
+fun DisplayUI(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     var selectedItem by remember { mutableIntStateOf(0) }
 
     Scaffold(
-        topBar = { TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary
-            ),
-            title = {
-                Text(
-                    "Halifax, Nova Scotia",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        )
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+                ),
+                title = {
+                    Text(
+                        "Halifax, Nova Scotia",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            )
         },
         bottomBar = {
             NavigationBar {
@@ -86,22 +85,28 @@ fun DisplayUI() {
             }
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = "home",
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable("home") { CurrentWeatherfun() }
-            composable(route = "forecast") {
-                val placeholderForecast = listOf(
-                    "Sun, Apr 27" to "Cloudy",
-                    "Mon, Apr 28" to "Rainy",
-                    "Tue, Apr 29" to "Partly Cloudy"
-                )
-                DailyForecastScreen(forecasts = placeholderForecast)
+            val weather = mainViewModel.weather
+
+            if (weather != null) {
+                NavHost(
+                    navController = navController,
+                    startDestination = "home",
+                    modifier = Modifier.padding(innerPadding)
+                ) {
+                    composable(route = "home") {
+                        CurrentWeatherfun(current = weather.current)
+                    }
+                    composable(route = "forecast") {
+                        DailyForecastScreen(forecast = weather.forecast)
+                    }
+                }
+            } else {
+                // show loading screen or placeholder
+                Text("Loading weather data...")
             }
+
         }
     }
-}
+
 
 
