@@ -89,7 +89,7 @@ fun ForecastCard(day: Forecast) {
 
         Text(text = " ${day.condition}",fontSize = 13.sp)
         Text(text = " ${day.precipitationType} (${day.precipitationAmount} mm)",fontSize = 13.sp)
-        Text(text = " ${day.windDirection} at ${day.windSpeed} Km/h",fontSize = 13.sp)
+        Text(text = " ${day.windDirection} at ${day.windSpeed} Km/h. ${day.humidity}%",fontSize = 13.sp)
     }
 
 }
