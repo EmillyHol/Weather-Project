@@ -1,18 +1,16 @@
 package com.example.weatherapp
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.models.Current
 import com.example.weatherapp.models.Forecast
 import com.example.weatherapp.models.Weather
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 
 class MainViewModel : ViewModel(){
-
-    var weather by mutableStateOf<Weather?>(null)
-        private set
+    private val _weather = MutableStateFlow<Weather?>(null)
+    val weather = _weather.asStateFlow()
     init {
       val current = Current(
           condition = "Sunny",
@@ -27,7 +25,8 @@ class MainViewModel : ViewModel(){
             Forecast("2025-10-04","Rainy", 20.0,18.0,"Chance of rain", 70.0,5, "NS",9.0,80),
             Forecast("2025-10-05","Sunny", 31.0,27.0,"None", 0.0,0, "SW",14.0,20)
         )
-        weather = Weather(current = current, forecast = forecast)
+        _weather.value = Weather(current, forecast)
+
     }
 
 }

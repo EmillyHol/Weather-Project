@@ -85,25 +85,19 @@ fun DisplayUI(mainViewModel: MainViewModel) {
             }
         }
     ) { innerPadding ->
-            val weather = mainViewModel.weather
 
-            if (weather != null) {
-                NavHost(
-                    navController = navController,
-                    startDestination = "home",
-                    modifier = Modifier.padding(innerPadding)
-                ) {
-                    composable(route = "home") {
-                        CurrentWeatherfun(current = weather.current)
-                    }
-                    composable(route = "forecast") {
-                        DailyForecastScreen(forecast = weather.forecast)
-                    }
-                }
-            } else {
-                // show loading screen or placeholder
-                Text("Loading weather data...")
+        NavHost(
+            navController = navController,
+            startDestination = "home",
+            modifier = Modifier.padding(innerPadding)
+        ) {//pass the viewmodel into the screens
+            composable(route = "home") {
+                CurrentWeatherfun(mainViewModel = mainViewModel)
             }
+            composable(route = "forecast") {
+                DailyForecastScreen(mainViewModel = mainViewModel)
+            }
+        }
 
         }
     }
