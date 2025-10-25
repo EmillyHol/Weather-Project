@@ -1,32 +1,25 @@
-package com.example.weatherapp
+package com.example.weatherapp.services
 
 import androidx.lifecycle.ViewModel
-import com.example.weatherapp.models.Current
-import com.example.weatherapp.models.Forecast
-import com.example.weatherapp.models.Weather
+
+import com.example.weatherapp.models.WeatherResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainViewModel : ViewModel(){
-    private val _weather = MutableStateFlow<Weather?>(null)
+    private val _weather = MutableStateFlow<WeatherResponse?>(null)
     val weather = _weather.asStateFlow()
-    init {
-      val current = Current(
-          condition = "Sunny",
-          temperature = 22.5,
-          precipitationType = "Feels like",
-          precipitationAmount = 18.0,
-          windDirection = "SW",
-          windSpeed = 14.6,
-      )
-        val forecast = listOf(
-            Forecast("2025-10-03","Partly Cloudy", 30.0,19.0,"Chance of rain", 0.0,5, "NE",10.0,40) ,
-            Forecast("2025-10-04","Rainy", 20.0,18.0,"Chance of rain", 70.0,5, "NS",9.0,80),
-            Forecast("2025-10-05","Sunny", 31.0,27.0,"None", 0.0,0, "SW",14.0,20)
-        )
-        _weather.value = Weather(current, forecast)
 
-    }
+    // Retrofit instance
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl("https://api.weatherapi.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
 }
+
+
+

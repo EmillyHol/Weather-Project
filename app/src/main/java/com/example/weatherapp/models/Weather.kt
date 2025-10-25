@@ -1,5 +1,5 @@
 package com.example.weatherapp.models
-
+import com.google.gson.annotations.SerializedName
 
 
 data class WeatherResponse(
@@ -13,21 +13,21 @@ data class Location(
     val country: String,
     val lat: Double,
     val lon: Double,
-    val tz_id: String,
+    @SerializedName("tz_id") val tzId: String,
     val localtime: String
 )
 
 data class Current(
-    val temp_c: Double,
-    val temp_f: Double,
-    val is_day: Int,
+    @SerializedName("temp_c") val tempC: Double,
+    @SerializedName("temp_f") val tempF: Double,
+    @SerializedName("is_day") val isDay: Int,
     val condition: Condition,
-    val wind_mph: Double,
-    val wind_kph: Double,
-    val wind_dir: String,
-    val feelslike_c: Double,
-    val pressure_mb: Double,
-    val precip_mm: Double,
+    @SerializedName("wind_mph") val windMph: Double,
+    @SerializedName("wind_kph") val windKph: Double,
+    @SerializedName("wind_dir") val windDir: String,
+    @SerializedName("feelslike_c") val feelsLikeC: Double,
+    @SerializedName("pressure_mb") val pressureMb: Double,
+    @SerializedName("precip_mm") val precipMm: Double,
     val cloud: Int
 )
 
@@ -45,8 +45,8 @@ data class ForecastDay(
 )
 
 data class Day(
-    val maxtemp_c: Double,
-    val mintemp_c: Double,
-    val avgtemp_c: Double,
+    @SerializedName("maxtem_c") val maxtempC: Double,
+    @SerializedName("mintemp_c") val mintempC: Double,
+    @SerializedName("avgtemp_c") val avgtempC: Double,
     val condition: Condition
 )
