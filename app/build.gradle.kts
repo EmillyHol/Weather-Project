@@ -55,11 +55,13 @@ dependencies {
     implementation(libs.material3)
     // Coil Images (coil 3 does not work with older Kotlin version)
     implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     // Retrofit GSON Converter
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+    implementation(libs.play.services.location)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

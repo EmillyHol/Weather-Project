@@ -28,16 +28,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapp.MainViewModel
 import com.example.weatherapp.models.Forecast
+import com.example.weatherapp.models.ForecastDay
+import com.example.weatherapp.services.MainViewModel
 
 
 @Composable
 fun DailyForecastScreen(mainViewModel: MainViewModel) {
     val weather by mainViewModel.weather.collectAsState()
-    val forecast = weather?.forecast
+    val forecastDays = weather?.forecast?.forecastday
     // Vertical list for all forecast cards
-    if (forecast != null) {
+    if (forecastDays != null) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -45,7 +46,7 @@ fun DailyForecastScreen(mainViewModel: MainViewModel) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(forecast) { day ->
+            items(forecastDays) { day ->
                 ForecastCard(day)
             }
         }
@@ -55,7 +56,7 @@ fun DailyForecastScreen(mainViewModel: MainViewModel) {
 
 
     @Composable
-    fun ForecastCard(day: Forecast) {
+    fun ForecastCard(day: ForecastDay) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,7 +79,8 @@ fun DailyForecastScreen(mainViewModel: MainViewModel) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                val icon = when (day.condition.lowercase()) {
+                val conditionText = day.day.condition.text.lowercase()
+                val icon = when (conditionText) {
                     "rainy" -> R.drawable.rainimg
                     "partly cloudy" -> R.drawable.pcloudyimg
                     else -> R.drawable.sunny
@@ -86,7 +88,7 @@ fun DailyForecastScreen(mainViewModel: MainViewModel) {
 
                 Image(
                     painter = painterResource(icon),
-                    contentDescription = day.condition,
+                    contentDescription = day.day.condition.text,
                     modifier = Modifier.size(60.dp),
                     contentScale = ContentScale.Fit
                 )
@@ -94,17 +96,21 @@ fun DailyForecastScreen(mainViewModel: MainViewModel) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "${day.temperatureHigh}°C / ${day.temperatureLow}°C",
+                    text = "${day.day. maxtempC}°C / ${day.day.mintempC}°C",
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp
                 )
-                Text(text = day.condition, fontSize = 14.sp)
+
+                Text(text = day.day.condition.text,
+                    fontSize = 14.sp
+                )
+
                 Text(
-                    text = "${day.precipitationType} (${day.precipitationAmount} mm)",
+                    text = "${day.day.maxWindKph} km/h (${day.day.chanceOfRain} mm)",
                     fontSize = 13.sp
                 )
                 Text(
-                    text = "${day.windDirection} at ${day.windSpeed} Km/h — ${day.humidity}%",
+                        text = "${day.day.windDir} at ${day.day.maxWindKph} Km/h — ${day.day.avgHumidity}%",
                     fontSize = 13.sp
                 )
             }

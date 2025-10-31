@@ -17,15 +17,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapp.MainViewModel
+import com.example.weatherapp.services.MainViewModel
 
 
 @Composable
 fun CurrentWeatherfun(mainViewModel: MainViewModel) {
     val weather by mainViewModel.weather.collectAsState()
-
     // Get current weather safely
     val current = weather?.current
+
+
 
     Spacer(modifier = Modifier.height(16.dp))
     Column(
@@ -50,18 +51,18 @@ fun CurrentWeatherfun(mainViewModel: MainViewModel) {
             Spacer(modifier = Modifier.height(16.dp))
 
             if (current != null) {
-                Text(text = current.condition, fontSize = 17.sp)
+                Text(text = current.condition.text, fontSize = 17.sp)
                 Text(
-                    text = "${current.temperature}°C",
+                    text = "${current.tempC}°C",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
                 Text(
-                    text = "${current.precipitationType} (${current.precipitationAmount} mm)",
+                    text = "(${current.precipMm} mm)",
                     fontSize = 17.sp
                 )
                 Text(
-                    text = "${current.windDirection} at ${current.windSpeed} Km/h",
+                    text = "${current.windDir} at ${current.windKph} Km/h",
                     fontSize = 17.sp
                 )
             } else {
